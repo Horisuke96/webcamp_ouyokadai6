@@ -8,14 +8,15 @@ before_action :correct_user, only: [:destroy]
     @comment = BookComment.new(book_comment_params)
     @comment.user_id = current_user.id
     @comment.book_id = @book.id
-    @comment.save!
-    redirect_back(fallback_location: root_path)
+    @comment.save
+    render :comment
 
   end
 
   def destroy
+    @book = Book.find(params[:book_id])
     BookComment.find_by(id: params[:id], book_id: params[:book_id]).destroy
-    redirect_to book_path(params[:book_id])
+    render :comment
   end
 
 
